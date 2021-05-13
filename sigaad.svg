@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="130mm"
+   height="220mm"
+   viewBox="0 0 130 220"
+   version="1.1"
+   id="svg8">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <rect
+       style="fill:#54ff41;stroke-width:0.25517"
+       id="rect10-3"
+       width="40"
+       height="40"
+       x="45"
+       y="0"
+       ry="4.5927563" />
+    <rect
+       style="fill:#ff3c1e;fill-opacity:1;stroke-width:0.25517"
+       id="rect10-3-6"
+       width="40"
+       height="40"
+       x="90"
+       y="0"
+       ry="4.5927567" />
+    <rect
+       style="fill:#54ff41;stroke-width:0.25517"
+       id="rect10-3-6-7"
+       width="40"
+       height="40"
+       x="0"
+       y="45"
+       ry="4.5927572" />
+    <rect
+       style="fill:#54ff41;stroke-width:0.25517"
+       id="rect10-3-6-7-5-3"
+       width="40"
+       height="40"
+       x="45"
+       y="90"
+       ry="4.5927572" />
+    <rect
+       style="fill:#54ff41;stroke-width:0.25517"
+       id="rect10-3-6-7-5-3-5-6"
+       width="40"
+       height="40"
+       x="90"
+       y="135"
+       ry="4.5927572" />
+    <rect
+       style="fill:#ff3c1e;fill-opacity:1;stroke-width:0.25517"
+       id="rect10-3-6-7-5-3-5-6-2"
+       width="40"
+       height="40"
+       x="0"
+       y="180"
+       ry="4.5927572" />
+    <rect
+       style="fill:#54ff41;stroke-width:0.25517"
+       id="rect10-3-6-7-5-3-5-6-2-9"
+       width="40"
+       height="40"
+       x="45"
+       y="180"
+       ry="4.5927572" />
+  </g>
+</svg>
