@@ -34,7 +34,7 @@ public class Executor extends Thread {
     public void run() {
         ObjectMapper objectMapper = new ObjectMapper();
         for (Comando<?, ?> comando : comandos) {
-            logger.info("Executando comando {} (ref. {})...", comando.getClass().getName(), comando.getReferencia());
+            logger.info("Executando comando {} (ref. {})...", comando.getClass().getSimpleName(), comando.getReferencia());
             Object resultado = comando.executar();
 
             try {
@@ -44,5 +44,7 @@ public class Executor extends Thread {
                         comando.getReferencia(), e.getMessage());
             }
         }
+
+        logger.info("Execução de {} comandos finalizada.", comandos.size());
     }
 }

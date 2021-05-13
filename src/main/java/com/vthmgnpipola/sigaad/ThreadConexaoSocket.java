@@ -1,10 +1,7 @@
 package com.vthmgnpipola.sigaad;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vthmgnpipola.sigaad.comandos.Comando;
-import com.vthmgnpipola.sigaad.comandos.ComandoNomeado;
-import java.io.BufferedReader;
+import com.vthmgnpipola.sigaad.comandos.ProcessadorComando;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,12 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +21,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ThreadConexaoSocket extends Thread implements Closeable {
     private static final Logger logger = LoggerFactory.getLogger(ThreadConexaoSocket.class);
-    private static Map<String, Class<? extends Comando<?, ?>>> comandosRegistrados;
 
     private ServerSocket serverSocket;
     private Socket socket;
@@ -46,20 +37,6 @@ public class ThreadConexaoSocket extends Thread implements Closeable {
             logger.error("Erro inicializando o ServerSocket!\n{}", e.getMessage());
             System.exit(-1);
         }
-
-        logger.info("Detectando comandos registrados...");
-
-        comandosRegistrados = new HashMap<>();
-
-        Reflections reflections = new Reflections("com.vthmgnpipola.sigaad.comandos");
-        for (Class<?> tipo : reflections.getTypesAnnotatedWith(ComandoNomeado.class)) {
-            if (!Comando.class.isAssignableFrom(tipo)) {
-                logger.error("Uma classe anotada com @ComandoNomeado não é um comando!");
-                System.exit(1);
-            }
-
-            comandosRegistrados.put(tipo.getAnnotation(ComandoNomeado.class).value(), (Class<? extends Comando<?, ?>>) tipo);
-        }
     }
 
     @Override
@@ -74,31 +51,19 @@ public class ThreadConexaoSocket extends Thread implements Closeable {
             System.exit(-1);
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                logger.info("Instruções recebidas, decodificando dados...");
+        StringBuilder request = new StringBuilder();
+        try (InputStreamReader isr = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8)) {
+            int i;
+            while ((i = isr.read()) != -1) { // Um EOF durante .read() é representado por um -1
+                request.append((char) i);
 
-                List<Comando<?, ?>> comandos = new ArrayList<>();
+                // Caso reconheça a terminação da requisição
+                if (request.toString().endsWith("\r\n\r\n")) {
+                    logger.info("Requisição recebida, processando dados...");
+                    List<Comando<?, ?>> comandos = ProcessadorComando.processar(request.toString());
+                    request = new StringBuilder();
 
-                boolean erro = false;
-                for (Iterator<Map.Entry<String, JsonNode>> it = objectMapper.readTree(line).fields(); it.hasNext(); ) {
-                    Map.Entry<String, JsonNode> nodeEntry = it.next();
-
-                    Class<? extends Comando<?, ?>> tipoComando = comandosRegistrados.get(nodeEntry.getKey());
-                    if (tipoComando == null) {
-                        logger.error("Comando {} não reconhecido!", nodeEntry.getKey());
-                        // TODO: Enviar erro ao cliente
-                        erro = true;
-                        break;
-                    }
-                    Comando<?, ?> comando = objectMapper.treeToValue(nodeEntry.getValue(), tipoComando);
-
-                    comandos.add(comando);
-                }
-
-                if (!erro) {
+                    // Executa os comandos processados
                     Executor executor = new Executor(comandos, outputStreamWriter);
                     executor.start();
                 }

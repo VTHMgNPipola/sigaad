@@ -1,5 +1,6 @@
 package com.vthmgnpipola.sigaad;
 
+import com.vthmgnpipola.sigaad.comandos.ProcessadorComando;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,8 @@ public class SigaaD {
                 logger.info("Arquivo de propriedades ({}) carregado com sucesso.", arquivoPropriedades);
             }
         }
+
+        ProcessadorComando.inicializar();
 
         ThreadConexaoSocket threadConexaoSocket = new ThreadConexaoSocket();
         threadConexaoSocket.start();
