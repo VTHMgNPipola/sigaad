@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * e 30 minutos).
  */
 public final class SessaoSigaa {
-    private static SessaoSigaa instance;
+    private static final SessaoSigaa INSTANCE = new SessaoSigaa();
 
     private String usuario;
 
@@ -42,11 +42,8 @@ public final class SessaoSigaa {
     private SessaoSigaa() {
     }
 
-    public static synchronized SessaoSigaa getInstance() {
-        if (instance == null) {
-            instance = new SessaoSigaa();
-        }
-        return instance;
+    public static SessaoSigaa getInstance() {
+        return INSTANCE;
     }
 
     public String getUsuario() {
