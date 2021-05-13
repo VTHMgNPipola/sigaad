@@ -98,8 +98,11 @@ public class ThreadConexaoSocket extends Thread implements Closeable {
 
     @Override
     public void close() throws IOException {
-        outputStreamWriter.close();
-        socket.close();
+        // Fecha o socket e output stream writer somente se uma conexão tiver sido realizada
+        if (socket != null) {
+            outputStreamWriter.close();
+            socket.close();
+        }
         serverSocket.close();
     }
 }
