@@ -50,6 +50,15 @@ public class ProcessadorComando {
     private static final Logger logger = LoggerFactory.getLogger(ProcessadorComando.class);
     private static Map<String, Class<? extends Comando<?, ?>>> comandosRegistrados;
 
+    /**
+     * Registra todos os comandos contidos no pacote {@code com.vthmgnpipola.sigaad.comandos}.
+     * Para fazer isso todos os tipos anotados com {@link ComandoNomeado} são listados e, caso sejam subclasses de
+     * {@link Comando}, são adicionadas a lista de comandos registrados. Caso um tipo anotado com {@code ComandoNomeado}
+     * não seja uma subclasse de {@code Comando}, um erro é lançado e a JVM é terminada.
+     *
+     * @see ComandoNomeado
+     * @see Comando
+     */
     public static void inicializar() {
         logger.info("Detectando comandos registrados...");
 
@@ -63,9 +72,18 @@ public class ProcessadorComando {
             }
 
             comandosRegistrados.put(tipo.getAnnotation(ComandoNomeado.class).value(), (Class<? extends Comando<?, ?>>) tipo);
+            logger.debug("Comando {} registrado com sucesso!", tipo.getSimpleName());
         }
     }
 
+    /**
+     * Processa uma string que contém uma request bruta, obrigatoriamente em JSON, em uma lista de comandos.
+     * O processo utilizado está descrito no javadoc da classe, mas basicamente um JSON contendo um "batch" de comandos
+     * é processado e transformado em uma lista que contém todos os comandos e seus dados.
+     *
+     * @param request JSON bruto recebido do cliente para ser processado.
+     * @return Lista contendo todos os comandos processados.
+     */
     public static List<Comando<?, ?>> processar(String request) {
         List<Comando<?, ?>> comandos = new ArrayList<>();
 

@@ -36,6 +36,8 @@ import org.slf4j.LoggerFactory;
  * Os dados são transmitidos e recebidos em formato de texto UTF8, portanto qualquer linguagem de programação deve
  * conseguir utilizar o sigaad com a sua própria implementação de sockets. A porta padrão em que o sigaad estará
  * escutando é a 51327.
+ * Cada requisição deve terminar com {@code \r\n\r\n}, então o socket do sigaad ficará esperando por esse padrão
+ * antes de fazer qualquer coisa.
  */
 public class ThreadConexaoSocket extends Thread implements Closeable {
     private static final Logger logger = LoggerFactory.getLogger(ThreadConexaoSocket.class);
