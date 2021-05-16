@@ -20,6 +20,7 @@ package com.vthmgnpipola.sigaad.comandos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vthmgnpipola.sigaad.respostas.Resposta;
 
 /**
  * Classe base para os comandos disponíveis no sigaad.
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param <R> Tipo do objeto que conterá os resultados que serão enviados pelo sigaad.
  */
 @JsonIgnoreProperties(ignoreUnknown = true) // Simplifica o processo de converter os dados do JSON com a tag 'comando'
-public abstract class Comando<D, R> {
+public abstract class Comando<D, R extends Resposta> {
     protected String referencia;
 
     public abstract R executar();

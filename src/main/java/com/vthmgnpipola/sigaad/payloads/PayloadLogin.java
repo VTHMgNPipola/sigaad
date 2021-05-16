@@ -16,24 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad;
+package com.vthmgnpipola.sigaad.payloads;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Properties;
-
-public class PropriedadesGlobais {
-    public static final String LOGIN_USUARIO = "usuario";
-    public static final String SENHA_USUARIO = "usuario.senha";
-    public static final String USER_AGENT = "user-agent";
-    private static final Properties PROPERTIES = new Properties();
-
-    public static void carregar(Path arquivo) throws IOException {
-        PROPERTIES.load(Files.newInputStream(arquivo));
-    }
-
-    public static Properties getProperties() {
-        return PROPERTIES;
-    }
+public record PayloadLogin(String usuario, String senha, boolean manterLogado) {
 }

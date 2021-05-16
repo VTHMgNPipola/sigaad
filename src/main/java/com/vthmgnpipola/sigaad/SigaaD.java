@@ -19,7 +19,10 @@
 package com.vthmgnpipola.sigaad;
 
 import com.vthmgnpipola.sigaad.comandos.ProcessadorComando;
+import com.vthmgnpipola.sigaad.sigaa.WebscraperSigaa;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,20 +37,21 @@ public class SigaaD {
 
     public static void main(String[] args) {
         logger.info("Iniciando sigaad...");
-        logger.info("Leia o arquivo de especificações para saber os possíveis argumentos de inicialização.");
 
-        for (String arg : args) {
-            if (arg.matches("props=.*")) {
-                String arquivoPropriedades = arg.split("=")[1];
-                try {
-                    PropriedadesGlobais.carregar(arquivoPropriedades);
-                } catch (IOException e) {
-                    logger.error("Não foi possível ler o arquivo de propriedades especificado!\n{}", e.getMessage());
-                    System.exit(-1);
-                }
-
-                logger.info("Arquivo de propriedades ({}) carregado com sucesso.", arquivoPropriedades);
+        Path propertiesFile = PathHelper.getPropertiesFile();
+        if (args.length > 0) {
+            propertiesFile = Path.of(args[0]);
+        }
+        try {
+            if (!Files.exists(propertiesFile)) {
+                Files.createDirectories(propertiesFile.getParent());
+                Files.createFile(propertiesFile);
             }
+
+            PropriedadesGlobais.carregar(propertiesFile);
+        } catch (IOException e) {
+            logger.error("Houve um erro carregando o arquivo de configurações!\n{}", e.getMessage());
+            System.exit(-1);
         }
 
         ProcessadorComando.inicializar();
@@ -57,6 +61,7 @@ public class SigaaD {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 threadConexaoSocket.close();
+                WebscraperSigaa.getInstance().close();
             } catch (IOException e) {
                 logger.error("Não foi possível finalizar a conexão corretamente com o cliente ao fechar!");
             }

@@ -16,24 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad;
+package com.vthmgnpipola.sigaad.sigaa;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Properties;
+import java.io.Serial;
 
-public class PropriedadesGlobais {
-    public static final String LOGIN_USUARIO = "usuario";
-    public static final String SENHA_USUARIO = "usuario.senha";
-    public static final String USER_AGENT = "user-agent";
-    private static final Properties PROPERTIES = new Properties();
+public class CredenciaisInvalidasException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 5657138354485787976L;
 
-    public static void carregar(Path arquivo) throws IOException {
-        PROPERTIES.load(Files.newInputStream(arquivo));
-    }
-
-    public static Properties getProperties() {
-        return PROPERTIES;
+    public CredenciaisInvalidasException(String message) {
+        super(message);
     }
 }

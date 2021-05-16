@@ -18,6 +18,8 @@
 
 package com.vthmgnpipola.sigaad.sigaa;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,8 +31,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * enquanto o sigaad estiver rodando (já que o SIGAA do IFSC invalida a sessão do usuário automaticamente após 1 hora
  * e 30 minutos).
  */
-public final class SessaoSigaa {
-    private static final SessaoSigaa INSTANCE = new SessaoSigaa();
+public final class SessaoSigaa implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -7631025525020807076L;
 
     private String usuario;
 
@@ -39,11 +42,8 @@ public final class SessaoSigaa {
 
     private LocalDateTime ultimoAcesso;
 
-    private SessaoSigaa() {
-    }
-
-    public static SessaoSigaa getInstance() {
-        return INSTANCE;
+    public SessaoSigaa() {
+        reiniciarViewState();
     }
 
     public String getUsuario() {
@@ -62,12 +62,20 @@ public final class SessaoSigaa {
         this.sessionId = sessionId;
     }
 
+    public int proximoViewState() {
+        return viewState.getAndIncrement();
+    }
+
     public AtomicInteger getViewState() {
         return viewState;
     }
 
     public void setViewState(AtomicInteger viewState) {
         this.viewState = viewState;
+    }
+
+    public void reiniciarViewState() {
+        viewState = new AtomicInteger(1);
     }
 
     public LocalDateTime getUltimoAcesso() {

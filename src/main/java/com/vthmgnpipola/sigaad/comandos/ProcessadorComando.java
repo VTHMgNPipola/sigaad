@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * todos os comandos anotados com {@link ComandoNomeado} enquanto {@link #inicializar()} foi chamado.
  * Quando recebe uma requisição para ser processada, o processador "digere" o JSON recebido e o transforma em uma
  * lista de comandos genéricos, que podem então ser executados por um {@link com.vthmgnpipola.sigaad.Executor}.
- *
+ * <p>
  * O processo de digestão dos comandos ocorre da seguinte maneira:
  * <ol>
  *     <li>O JSON recebido é dividido em uma lista de {@link JsonNode}s, que (teoricamente) contém um comando</li>
@@ -90,7 +90,7 @@ public class ProcessadorComando {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             for (Iterator<Map.Entry<String, JsonNode>> iterator = objectMapper.readTree(request).fields();
-                 iterator.hasNext();) {
+                 iterator.hasNext(); ) {
                 Map.Entry<String, JsonNode> nodeEntry = iterator.next();
                 logger.debug("Iniciando processamento do comando '{}'...", nodeEntry.getKey());
 

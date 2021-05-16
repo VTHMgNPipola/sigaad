@@ -30,7 +30,6 @@ public class ComandoPing extends Comando<Object, RespostaSimples> {
     @Override
     public RespostaSimples executar() {
         RespostaSimples resposta = new RespostaSimples();
-        resposta.setReferencia(referencia);
         resposta.setEstado(EstadoResposta.SUCESSO);
         return resposta;
     }
