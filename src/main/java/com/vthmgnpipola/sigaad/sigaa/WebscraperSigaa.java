@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +39,6 @@ import org.slf4j.LoggerFactory;
 import static com.vthmgnpipola.sigaad.PropriedadesGlobais.LOGIN_USUARIO;
 import static com.vthmgnpipola.sigaad.PropriedadesGlobais.SENHA_USUARIO;
 import static com.vthmgnpipola.sigaad.PropriedadesGlobais.USER_AGENT;
-import static org.jsoup.Connection.Method.GET;
-import static org.jsoup.Connection.Method.POST;
 
 public final class WebscraperSigaa implements Closeable {
     private static final WebscraperSigaa INSTANCE = new WebscraperSigaa();
@@ -67,11 +66,13 @@ public final class WebscraperSigaa implements Closeable {
         if (Files.exists(PathHelper.getSessaoFile())) {
             try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(PathHelper.getSessaoFile()))) {
                 sessaoSigaa = (SessaoSigaa) ois.readObject();
+                logger.info("Sessão encontrada e carregada com sucesso.");
             } catch (IOException | ClassNotFoundException e) {
                 logger.error("Houve um erro tentando ler o arquivo de sessão!\n{}", e.getMessage());
                 sessaoSigaa = new SessaoSigaa();
             }
         } else {
+            logger.info("Não existe uma sessão salva previamente, criando uma nova...");
             sessaoSigaa = new SessaoSigaa();
         }
     }
@@ -81,17 +82,28 @@ public final class WebscraperSigaa implements Closeable {
     }
 
     /**
-     * Constrói uma conexão logada com a URL e método especificados. A conexão é considerada "logada" porque o
+     * Constrói uma conexão logada com a URL e método POST. A conexão é considerada "logada" porque o
      * JSESSIONID e javax.faces.ViewState estão presentes na requisição.
      *
      * @param url URL da requisição.
-     * @param method Método da requisição
      * @return Requisição construída, com o JSESSIONID e view state já preenchidos.
      */
-    private Connection buildConexao(String url, Connection.Method method) {
+    private Connection buildPostRequest(String url) {
         return Jsoup.connect(url).cookie(NOME_SESSION_ID, sessaoSigaa.getSessionId())
                 .data(NOME_VIEW_STATE, "j_id" + sessaoSigaa.proximoViewState())
-                .userAgent(VALOR_USER_AGENT).method(method);
+                .userAgent(VALOR_USER_AGENT).method(Connection.Method.POST);
+    }
+
+    /**
+     * Constrói uma conexão logada com a URL e método GET. A conexão é considerada "logada" porque o
+     * JSESSIONID está presente na requisição.
+     *
+     * @param url URL da requisição.
+     * @return Requisição construída, com o JSESSIONID preenchido.
+     */
+    private Connection buildGetRequest(String url) {
+        return Jsoup.connect(url).cookie(NOME_SESSION_ID, sessaoSigaa.getSessionId())
+                .userAgent(VALOR_USER_AGENT).method(Connection.Method.GET);
     }
 
     /**
@@ -179,12 +191,12 @@ public final class WebscraperSigaa implements Closeable {
         dados.put("user.senha", senha);
 
         // Consegue o session ID da página de login
-        Connection.Response telaLogin = tentarChamada(Jsoup.connect(URL_PAGINA_LOGIN).method(GET));
+        Connection.Response telaLogin = tentarChamada(Jsoup.connect(URL_PAGINA_LOGIN).method(Connection.Method.GET));
         String sessionId = telaLogin.cookie(NOME_SESSION_ID);
 
         // Faz a chamada
         Connection loginConnection = Jsoup.connect(URL_LOGIN)
-                .data(dados).cookie(NOME_SESSION_ID, sessionId).method(POST);
+                .data(dados).cookie(NOME_SESSION_ID, sessionId).method(Connection.Method.POST);
         Connection.Response loginResponse = tentarChamada(loginConnection);
 
         // Verifica se houve sucesso
@@ -199,14 +211,23 @@ public final class WebscraperSigaa implements Closeable {
     }
 
     public Document paginaInicial() throws IOException {
-        Connection connection = buildConexao(URL_DISCENTE, GET);
+        Connection connection = buildGetRequest(URL_DISCENTE);
         return executarChamada(connection).parse();
     }
 
     @Override
     public void close() throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(PathHelper.getSessaoFile()))) {
-            oos.writeObject(sessaoSigaa);
+        if (sessaoSigaa.getSessionId() != null) {
+            Path sessaoFile = PathHelper.getSessaoFile();
+            if (!Files.exists(sessaoFile)) {
+                Files.createFile(sessaoFile);
+            }
+
+            try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(sessaoFile))) {
+                oos.writeObject(sessaoSigaa);
+            }
+        } else {
+            Files.deleteIfExists(PathHelper.getSessaoFile());
         }
     }
 }

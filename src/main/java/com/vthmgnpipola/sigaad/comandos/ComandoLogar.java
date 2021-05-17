@@ -39,20 +39,20 @@ public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
     public RespostaSimples executar() {
         EstadoResposta estadoResposta = EstadoResposta.SUCESSO;
         try {
-            WebscraperSigaa.getInstance().login(payloadLogin.usuario(), payloadLogin.senha());
+            WebscraperSigaa.getInstance().login(payloadLogin.getUsuario(), payloadLogin.getSenha());
         } catch (Exception e) {
             logger.error("Não foi possível logar no SIGAA!\n{}", e.getMessage());
             estadoResposta = EstadoResposta.FALHA;
         }
 
-        if (payloadLogin.manterLogado() && estadoResposta == EstadoResposta.SUCESSO) {
-            PropriedadesGlobais.getProperties().setProperty(LOGIN_USUARIO, payloadLogin.usuario());
-            PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, payloadLogin.senha());
+        if (payloadLogin.isManterLogado() && estadoResposta == EstadoResposta.SUCESSO) {
+            PropriedadesGlobais.getProperties().setProperty(LOGIN_USUARIO, payloadLogin.getUsuario());
+            PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, payloadLogin.getSenha());
         }
 
         RespostaSimples resposta = new RespostaSimples();
         resposta.setEstado(estadoResposta);
-        return null;
+        return resposta;
     }
 
     @Override

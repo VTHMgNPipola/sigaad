@@ -16,40 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.payloads;
+package com.vthmgnpipola.sigaad.respostas;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vthmgnpipola.sigaad.model.Turma;
+import java.util.List;
 
-public class PayloadLogin {
-    @JsonProperty(required = true)
-    private String usuario;
+public class RespostaTurmas extends Resposta {
+    private List<Turma> turmas;
 
-    @JsonProperty(required = true)
-    private String senha;
-
-    private boolean manterLogado;
-
-    public String getUsuario() {
-        return usuario;
+    public List<Turma> getTurmas() {
+        return turmas;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public boolean isManterLogado() {
-        return manterLogado;
-    }
-
-    public void setManterLogado(boolean manterLogado) {
-        this.manterLogado = manterLogado;
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
     }
 }

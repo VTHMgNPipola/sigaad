@@ -25,18 +25,18 @@ public final class PathHelper {
     public static Path getPropertiesFile() {
         Path userHome = Path.of(System.getProperty("user.home"));
         return switch (Objects.requireNonNull(getRunningOperatingSystem())) {
-            case WINDOWS -> userHome.resolve("/AppData/sigaad/sigaad.properties");
-            case MACOS -> userHome.resolve("/Library/Application Support/sigaad/sigaad.properties");
-            case UNIX -> userHome.resolve("/.config/sigaad/sigaad.properties");
+            case WINDOWS -> userHome.resolve("AppData/sigaad/sigaad.properties");
+            case MACOS -> userHome.resolve("Library/Application Support/sigaad/sigaad.properties");
+            case UNIX -> userHome.resolve(".config/sigaad/sigaad.properties");
         };
     }
 
     public static Path getDataFolder() {
         Path userHome = Path.of(System.getProperty("user.home"));
         return switch (Objects.requireNonNull(getRunningOperatingSystem())) {
-            case WINDOWS -> userHome.resolve("/AppData/sigaad/");
-            case MACOS -> userHome.resolve("/Library/Application Support/sigaad/");
-            case UNIX -> userHome.resolve("/.var/app/com.vthmgnpipola.sigaad/");
+            case WINDOWS -> userHome.resolve("AppData/sigaad/");
+            case MACOS -> userHome.resolve("Library/Application Support/sigaad/");
+            case UNIX -> userHome.resolve(".var/app/com.vthmgnpipola.sigaad/");
         };
     }
 

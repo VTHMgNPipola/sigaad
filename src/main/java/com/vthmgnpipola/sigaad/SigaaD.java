@@ -49,8 +49,14 @@ public class SigaaD {
             }
 
             PropriedadesGlobais.carregar(propertiesFile);
+            logger.debug("Arquivo de propriedades {} carregado.", propertiesFile);
+
+            if (!Files.exists(PathHelper.getDataFolder())) {
+                Files.createDirectories(PathHelper.getDataFolder());
+                logger.debug("Pasta de dados criada.");
+            }
         } catch (IOException e) {
-            logger.error("Houve um erro carregando o arquivo de configurações!\n{}", e.getMessage());
+            logger.error("Houve um erro durante a inicialização!\n{}", e.getMessage());
             System.exit(-1);
         }
 
