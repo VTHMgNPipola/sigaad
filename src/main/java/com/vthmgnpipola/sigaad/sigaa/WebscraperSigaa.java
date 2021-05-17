@@ -27,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -66,7 +67,8 @@ public final class WebscraperSigaa implements Closeable {
         if (Files.exists(PathHelper.getSessaoFile())) {
             try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(PathHelper.getSessaoFile()))) {
                 sessaoSigaa = (SessaoSigaa) ois.readObject();
-                logger.info("Sessão encontrada e carregada com sucesso.");
+                logger.info("Sessão encontrada e carregada com sucesso. Último acesso em {}.",
+                        sessaoSigaa.getUltimoAcesso().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
             } catch (IOException | ClassNotFoundException e) {
                 logger.error("Houve um erro tentando ler o arquivo de sessão!\n{}", e.getMessage());
                 sessaoSigaa = new SessaoSigaa();
