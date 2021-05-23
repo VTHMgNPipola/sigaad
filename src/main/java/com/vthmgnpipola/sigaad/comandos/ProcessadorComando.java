@@ -33,18 +33,24 @@ import org.slf4j.LoggerFactory;
 /**
  * Essa é a classe de processamento de comandos.
  * Após ser inicializada, essa classe ficará com um mapa que contém
- * todos os comandos anotados com {@link ComandoNomeado} enquanto {@link #inicializar()} foi chamado.
+ * todos os comandos anotados com {@link ComandoNomeado} quando {@link #inicializar()} foi chamado.
  * Quando recebe uma requisição para ser processada, o processador "digere" o JSON recebido e o transforma em uma
  * lista de comandos genéricos, que podem então ser executados por um {@link com.vthmgnpipola.sigaad.Executor}.
  * <p>
  * O processo de digestão dos comandos ocorre da seguinte maneira:
  * <ol>
- *     <li>O JSON recebido é dividido em uma lista de {@link JsonNode}s, que (teoricamente) contém um comando</li>
- *     <li>O processamento de cada JsonNode começa, onde o primeiro passo é descobrir o tipo de comando que será
- *     executado. Isso é feito lendo o atributo de texto 'comando' dentro do JsonNode.</li>
- *     <li>Depois disso o JsonNode é passado para um {@link ObjectMapper} decodificar, utilizando como base a
- *     classe do comando, inferida utilizando o nome do comando no JsonNode e no mapa de comandos registrados.</li>
- *     <li>Finalmente a referência do comando é definida, que é simplesmente o nome do JsonNode.</li>
+ *     <li>O JSON recebido é processado em um {@link JsonNode}s, que (teoricamente) contém os comandos e quaisquer
+ *     outros atributos;</li>
+ *     <li>O node "comandos" é extraído do node base processado anteriormente, e este deve ser obrigatoriamente um
+ *     array (caso contrário o processo é interrompido);</li>
+ *     <li>O método itera sobre todos os itens dentro do array, processando cada comando da seguinte maneira:</li>
+ *     <ol>
+ *         <li>Extrai a referência do comando, contida no campo de texto "referencia";</li>
+ *         <li>Descobre o tipo do comando através do valor do campo de texto "comando";</li>
+ *         <li>Caso o tipo esteja cadastrado na lista de comandos deste processador, cria uma instância desse
+ *         comando;</li>
+ *         <li>Cria a payload do comando com base nos campos restantes.</li>
+ *     </ol>
  * </ol>
  */
 public class ProcessadorComando {
