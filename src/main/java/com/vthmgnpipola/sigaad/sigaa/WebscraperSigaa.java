@@ -61,6 +61,9 @@ public final class WebscraperSigaa implements Closeable {
     private static final int ERRO_TENTATIVAS = Integer.parseInt(PropriedadesGlobais.getProperties()
             .getProperty("sigaa.erro.tentativas", "5"));
 
+    private static final int TIMEOUT = Integer.parseInt(PropriedadesGlobais.getProperties()
+            .getProperty("sigaa.timeout", "60000")); // Timeout em milissegundos
+
     private SessaoSigaa sessaoSigaa;
 
     private WebscraperSigaa() {
@@ -91,7 +94,7 @@ public final class WebscraperSigaa implements Closeable {
      * @return Requisição construída, com o JSESSIONID e view state já preenchidos.
      */
     private Connection buildPostRequest(String url) {
-        return Jsoup.connect(url).cookie(NOME_SESSION_ID, sessaoSigaa.getSessionId())
+        return Jsoup.connect(url).timeout(TIMEOUT).cookie(NOME_SESSION_ID, sessaoSigaa.getSessionId())
                 .data(NOME_VIEW_STATE, "j_id" + sessaoSigaa.proximoViewState())
                 .userAgent(VALOR_USER_AGENT).method(Connection.Method.POST);
     }
@@ -104,7 +107,7 @@ public final class WebscraperSigaa implements Closeable {
      * @return Requisição construída, com o JSESSIONID preenchido.
      */
     private Connection buildGetRequest(String url) {
-        return Jsoup.connect(url).cookie(NOME_SESSION_ID, sessaoSigaa.getSessionId())
+        return Jsoup.connect(url).timeout(TIMEOUT).cookie(NOME_SESSION_ID, sessaoSigaa.getSessionId())
                 .userAgent(VALOR_USER_AGENT).method(Connection.Method.GET);
     }
 
