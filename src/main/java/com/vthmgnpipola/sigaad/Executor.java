@@ -58,7 +58,10 @@ public class Executor extends Thread {
             resposta.setReferencia(comando.getReferencia());
 
             try {
-                objectMapper.writeValue(outputStreamWriter, resposta);
+                String respostaJson = objectMapper.writeValueAsString(resposta);
+                outputStreamWriter.write(respostaJson);
+                outputStreamWriter.write("\r\n\r\n");
+                outputStreamWriter.flush();
             } catch (IOException e) {
                 logger.error("Não foi possível escrever o resultado do comando com referência '{}' para o cliente!\n{}",
                         comando.getReferencia(), e.getMessage());
