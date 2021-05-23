@@ -20,6 +20,7 @@ package com.vthmgnpipola.sigaad.comandos;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,6 +60,7 @@ public class ProcessadorComando {
      * @see ComandoNomeado
      * @see Comando
      */
+    @SuppressWarnings("unchecked")
     public static void inicializar() {
         logger.info("Detectando comandos registrados...");
 
@@ -89,22 +91,31 @@ public class ProcessadorComando {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            for (Iterator<Map.Entry<String, JsonNode>> iterator = objectMapper.readTree(request).fields();
-                 iterator.hasNext(); ) {
-                Map.Entry<String, JsonNode> nodeEntry = iterator.next();
-                logger.debug("Iniciando processamento do comando '{}'...", nodeEntry.getKey());
+            JsonNode baseNode = objectMapper.readTree(request);
+            JsonNode comandosNodeRaw = baseNode.get("comandos");
 
-                Class<? extends Comando<?, ?>> classComando = comandosRegistrados.get(nodeEntry.getValue()
-                        .get("comando").asText());
+            if (!comandosNodeRaw.isArray()) {
+                logger.warn("Requisição recebida não é um array de comandos!");
+                return null;
+            }
+            ArrayNode comandosNode = (ArrayNode) comandosNodeRaw;
+
+            for (Iterator<JsonNode> iterator = comandosNode.elements();
+                 iterator.hasNext(); ) {
+                JsonNode node = iterator.next();
+                String referencia = node.get("referencia").asText();
+                logger.debug("Iniciando processamento do comando '{}'...", referencia);
+
+                Class<? extends Comando<?, ?>> classComando = comandosRegistrados.get(node.get("comando").asText());
                 if (classComando == null) {
-                    logger.error("Comando '{}' não reconhecido!", nodeEntry.getKey());
+                    logger.error("Comando '{}' não reconhecido!", referencia);
                     continue;
                 }
 
                 logger.trace("Decodificando JSON do comando...");
-                Comando<?, ?> comando = objectMapper.treeToValue(nodeEntry.getValue(), classComando);
+                Comando<?, ?> comando = objectMapper.treeToValue(node, classComando);
                 logger.trace("Definindo a referência do comando...");
-                comando.setReferencia(nodeEntry.getKey());
+                comando.setReferencia(referencia);
                 comandos.add(comando);
             }
         } catch (Throwable e) {
