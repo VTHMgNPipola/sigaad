@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>com.vthmgnpipola.sigaad.data</module>
+        <module>com.vthmgnpipola.sigaad.libsigaa</module>
     </modules>
 
     <properties>

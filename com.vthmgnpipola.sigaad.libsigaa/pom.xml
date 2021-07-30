@@ -27,8 +27,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sigaad.data</artifactId>
-    <description>Biblioteca de dados utilizada pelo sigaad e pelo libsigaa</description>
+    <artifactId>sigaad.libsigaa</artifactId>
+    <description>Biblioteca Java para comunicação com o sigaad</description>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
