@@ -45,7 +45,7 @@ public final class WebscraperSigaa implements Closeable {
     private static final WebscraperSigaa INSTANCE = new WebscraperSigaa();
     private static final Logger logger = LoggerFactory.getLogger(WebscraperSigaa.class);
 
-    private static final String URL_PAGINA_ERRO = "URL-ERRO";
+    private static final String URL_PAGINA_ERRO = "https://sig.ifsc.edu.br/sigaa/verPortalDiscente.do?";
     private static final String URL_SESSAO_EXPIRADA = "https://sig.ifsc.edu.br/sigaa/expirada.jsp";
     private static final String URL_PAGINA_LOGIN = "https://sigaa.ifsc.edu.br/sigaa/verTelaLogin.do";
     private static final String URL_LOGIN = "https://sigaa.ifsc.edu.br/sigaa/logar.do?dispatch=logOn";
