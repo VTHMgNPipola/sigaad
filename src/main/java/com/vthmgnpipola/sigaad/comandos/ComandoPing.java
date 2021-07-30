@@ -18,8 +18,8 @@
 
 package com.vthmgnpipola.sigaad.comandos;
 
-import com.vthmgnpipola.sigaad.respostas.EstadoResposta;
-import com.vthmgnpipola.sigaad.respostas.RespostaSimples;
+import com.vthmgnpipola.sigaad.data.respostas.EstadoResposta;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
 
 /**
  * Comando simples utilizado para testar a conexão com o sigaad. O comando não faz nada e retorna imediatamente uma

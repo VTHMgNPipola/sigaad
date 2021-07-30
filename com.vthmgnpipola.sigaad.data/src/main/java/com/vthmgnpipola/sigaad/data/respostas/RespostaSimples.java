@@ -16,19 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.respostas;
+package com.vthmgnpipola.sigaad.data.respostas;
 
-import com.vthmgnpipola.sigaad.model.Turma;
-import java.util.List;
-
-public class RespostaTurmas extends Resposta {
-    private List<Turma> turmas;
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
-    }
+public class RespostaSimples extends Resposta {
 }

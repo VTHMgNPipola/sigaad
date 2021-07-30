@@ -16,7 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.respostas;
+package com.vthmgnpipola.sigaad.data.respostas;
 
-public class RespostaSimples extends Resposta {
+/**
+ * Este enum contém os estados possíveis de resposta para comandos do sigaad, como os estados de sucesso ou falha
+ * na execução do comando.
+ */
+public enum EstadoResposta {
+    SUCESSO, FALHA
 }

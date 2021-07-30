@@ -18,9 +18,9 @@
 
 package com.vthmgnpipola.sigaad.comandos;
 
-import com.vthmgnpipola.sigaad.model.Turma;
-import com.vthmgnpipola.sigaad.respostas.EstadoResposta;
-import com.vthmgnpipola.sigaad.respostas.RespostaTurmas;
+import com.vthmgnpipola.sigaad.data.model.Turma;
+import com.vthmgnpipola.sigaad.data.respostas.EstadoResposta;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaTurmas;
 import com.vthmgnpipola.sigaad.sigaa.WebscraperSigaa;
 import java.util.ArrayList;
 import java.util.Arrays;

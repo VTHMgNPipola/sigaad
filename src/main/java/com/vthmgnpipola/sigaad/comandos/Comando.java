@@ -20,7 +20,7 @@ package com.vthmgnpipola.sigaad.comandos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vthmgnpipola.sigaad.respostas.Resposta;
+import com.vthmgnpipola.sigaad.data.respostas.Resposta;
 
 /**
  * Classe base para os comandos disponíveis no sigaad.

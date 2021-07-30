@@ -16,12 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.respostas;
+package com.vthmgnpipola.sigaad.data.respostas;
 
-/**
- * Este enum contém os estados possíveis de resposta para comandos do sigaad, como os estados de sucesso ou falha
- * na execução do comando.
- */
-public enum EstadoResposta {
-    SUCESSO, FALHA
+import com.vthmgnpipola.sigaad.data.model.Turma;
+import java.util.List;
+
+public class RespostaTurmas extends Resposta {
+    private List<Turma> turmas;
+
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
+    }
 }

@@ -18,7 +18,7 @@
 
 package com.vthmgnpipola.sigaad.comandos;
 
-import com.vthmgnpipola.sigaad.model.Turma;
+import com.vthmgnpipola.sigaad.data.model.Turma;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.Assertions;

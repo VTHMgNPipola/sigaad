@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.model;
+package com.vthmgnpipola.sigaad.data.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

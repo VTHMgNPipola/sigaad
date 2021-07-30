@@ -20,7 +20,7 @@ package com.vthmgnpipola.sigaad;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vthmgnpipola.sigaad.comandos.Comando;
-import com.vthmgnpipola.sigaad.respostas.Resposta;
+import com.vthmgnpipola.sigaad.data.respostas.Resposta;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;

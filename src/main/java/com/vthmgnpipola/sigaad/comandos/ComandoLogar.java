@@ -19,9 +19,9 @@
 package com.vthmgnpipola.sigaad.comandos;
 
 import com.vthmgnpipola.sigaad.PropriedadesGlobais;
-import com.vthmgnpipola.sigaad.payloads.PayloadLogin;
-import com.vthmgnpipola.sigaad.respostas.EstadoResposta;
-import com.vthmgnpipola.sigaad.respostas.RespostaSimples;
+import com.vthmgnpipola.sigaad.data.payloads.PayloadLogin;
+import com.vthmgnpipola.sigaad.data.respostas.EstadoResposta;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
 import com.vthmgnpipola.sigaad.sigaa.WebscraperSigaa;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

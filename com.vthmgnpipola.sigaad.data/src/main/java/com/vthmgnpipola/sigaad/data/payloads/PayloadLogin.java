@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.payloads;
+package com.vthmgnpipola.sigaad.data.payloads;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
