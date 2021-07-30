@@ -22,21 +22,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Batch {
-    private List<Comando<?>> comandos;
+    private List<Comando<?, ?>> comandos;
 
     public Batch() {
         comandos = new ArrayList<>();
     }
 
-    public List<Comando<?>> getComandos() {
+    public List<Comando<?, ?>> getComandos() {
         return comandos;
     }
 
-    public void setComandos(List<Comando<?>> comandos) {
+    public void setComandos(List<Comando<?, ?>> comandos) {
         this.comandos = comandos;
     }
 
-    public void adicionarComando(Comando<?> comando) {
+    public void adicionarComando(Comando<?, ?> comando) {
         comandos.add(comando);
     }
 }

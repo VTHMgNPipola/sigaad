@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.libsigaa;
+package com.vthmgnpipola.sigaad.libsigaa.conexao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vthmgnpipola.sigaad.libsigaa.comandos.Batch;

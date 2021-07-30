@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.libsigaa;
+package com.vthmgnpipola.sigaad.libsigaa.conexao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +32,7 @@ public class ThreadLeitora extends Thread {
     private static final Logger logger = LoggerFactory.getLogger(ThreadLeitora.class);
 
     private final InputStreamReader isr;
-    private final Map<String, Comando<?>> comandosAguardando;
+    private final Map<String, Comando<?, ?>> comandosAguardando;
 
     public ThreadLeitora(InputStreamReader isr) {
         this.isr = isr;
@@ -57,7 +57,7 @@ public class ThreadLeitora extends Thread {
                     JsonNode jsonNode = objectMapper.readTree(respostaAtual);
                     resposta = new StringBuilder();
 
-                    Comando<?> comando = comandosAguardando.remove(jsonNode.get("referencia").asText());
+                    Comando<?, ?> comando = comandosAguardando.remove(jsonNode.get("referencia").asText());
                     if (comando == null) {
                         logger.warn("Resposta de um comando não enviado recebida!");
                         continue;
@@ -73,7 +73,7 @@ public class ThreadLeitora extends Thread {
         }
     }
 
-    public void adicionarComandos(Map<String, Comando<?>> comandosAguardando) {
+    public void adicionarComandos(Map<String, Comando<?, ?>> comandosAguardando) {
         this.comandosAguardando.putAll(comandosAguardando);
     }
 }

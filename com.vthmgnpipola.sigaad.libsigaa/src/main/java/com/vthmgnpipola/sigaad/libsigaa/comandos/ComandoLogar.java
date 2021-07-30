@@ -19,11 +19,12 @@
 package com.vthmgnpipola.sigaad.libsigaa.comandos;
 
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.vthmgnpipola.sigaad.data.payloads.PayloadLogin;
 import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
 import java.util.function.Consumer;
 
-public class ComandoPing extends Comando<Object, RespostaSimples> {
-    public ComandoPing(String referencia, Consumer<RespostaSimples> callback) {
-        super(referencia, "ping", TypeFactory.defaultInstance().constructType(RespostaSimples.class), callback);
+public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
+    public ComandoLogar(String referencia, Consumer<RespostaSimples> callback) {
+        super(referencia, "logar", TypeFactory.defaultInstance().constructType(RespostaSimples.class), callback);
     }
 }

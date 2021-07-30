@@ -33,35 +33,23 @@ import static com.vthmgnpipola.sigaad.PropriedadesGlobais.SENHA_USUARIO;
 public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
     private static final Logger logger = LoggerFactory.getLogger(ComandoLogar.class);
 
-    private PayloadLogin payloadLogin;
-
     @Override
     public RespostaSimples executar() {
         EstadoResposta estadoResposta = EstadoResposta.SUCESSO;
         try {
-            WebscraperSigaa.getInstance().login(payloadLogin.getUsuario(), payloadLogin.getSenha());
+            WebscraperSigaa.getInstance().login(dados.getUsuario(), dados.getSenha());
         } catch (Exception e) {
             logger.error("Não foi possível logar no SIGAA!\n{}", e.getMessage());
             estadoResposta = EstadoResposta.FALHA;
         }
 
-        if (payloadLogin.isManterLogado() && estadoResposta == EstadoResposta.SUCESSO) {
-            PropriedadesGlobais.getProperties().setProperty(LOGIN_USUARIO, payloadLogin.getUsuario());
-            PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, payloadLogin.getSenha());
+        if (dados.isManterLogado() && estadoResposta == EstadoResposta.SUCESSO) {
+            PropriedadesGlobais.getProperties().setProperty(LOGIN_USUARIO, dados.getUsuario());
+            PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, dados.getSenha());
         }
 
         RespostaSimples resposta = new RespostaSimples();
         resposta.setEstado(estadoResposta);
         return resposta;
-    }
-
-    @Override
-    public PayloadLogin getDados() {
-        return payloadLogin;
-    }
-
-    @Override
-    public void setDados(PayloadLogin dados) {
-        this.payloadLogin = dados;
     }
 }

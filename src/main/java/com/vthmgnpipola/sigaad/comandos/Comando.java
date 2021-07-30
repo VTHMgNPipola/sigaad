@@ -19,7 +19,6 @@
 package com.vthmgnpipola.sigaad.comandos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vthmgnpipola.sigaad.data.respostas.Resposta;
 
 /**
@@ -34,6 +33,8 @@ import com.vthmgnpipola.sigaad.data.respostas.Resposta;
 public abstract class Comando<D, R extends Resposta> {
     protected String referencia;
 
+    protected D dados;
+
     public abstract R executar();
 
     public String getReferencia() {
@@ -44,10 +45,11 @@ public abstract class Comando<D, R extends Resposta> {
         this.referencia = referencia;
     }
 
-    public abstract D getDados();
+    public D getDados() {
+        return dados;
+    }
 
-    // Não tenho certeza se isso é necessário, mas como quero que o Jackson reconheça "dados" como uma propriedade
-    // sem existir uma variável para ele nessa classe coloquei essa anotação.
-    @JsonProperty("dados")
-    public abstract void setDados(D dados);
+    public void setDados(D dados) {
+        this.dados = dados;
+    }
 }

@@ -19,11 +19,12 @@
 package com.vthmgnpipola.sigaad.libsigaa.comandos;
 
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaTurmas;
 import java.util.function.Consumer;
 
-public class ComandoPing extends Comando<Object, RespostaSimples> {
-    public ComandoPing(String referencia, Consumer<RespostaSimples> callback) {
-        super(referencia, "ping", TypeFactory.defaultInstance().constructType(RespostaSimples.class), callback);
+public class ComandoListarTurmas extends Comando<Object, RespostaTurmas> {
+    public ComandoListarTurmas(String referencia, Consumer<RespostaTurmas> callback) {
+        super(referencia, "listarTurmas", TypeFactory.defaultInstance().constructType(RespostaTurmas.class),
+                callback);
     }
 }

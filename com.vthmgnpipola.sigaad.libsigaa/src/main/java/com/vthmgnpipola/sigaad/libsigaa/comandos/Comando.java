@@ -19,11 +19,12 @@
 package com.vthmgnpipola.sigaad.libsigaa.comandos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import java.util.function.Consumer;
 
-public abstract class Comando<T> {
+public abstract class Comando<D, T> {
     @JsonIgnore
     private JavaType tipoResposta;
 
@@ -34,6 +35,9 @@ public abstract class Comando<T> {
 
     @JsonProperty("comando")
     private String tipo;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private D dados;
 
     public Comando(String referencia, String tipo, JavaType tipoResposta, Consumer<T> callback) {
         this.referencia = referencia;
@@ -72,5 +76,13 @@ public abstract class Comando<T> {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public D getDados() {
+        return dados;
+    }
+
+    public void setDados(D dados) {
+        this.dados = dados;
     }
 }
