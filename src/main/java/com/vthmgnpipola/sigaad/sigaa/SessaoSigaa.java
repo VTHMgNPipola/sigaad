@@ -85,4 +85,8 @@ public final class SessaoSigaa implements Serializable {
     public void setUltimoAcesso(LocalDateTime ultimoAcesso) {
         this.ultimoAcesso = ultimoAcesso;
     }
+
+    public boolean isValida() {
+        return ultimoAcesso != null && ultimoAcesso.isAfter(LocalDateTime.now().minusHours(1).minusMinutes(30));
+    }
 }

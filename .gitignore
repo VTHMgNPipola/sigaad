@@ -12,3 +12,6 @@
 /.idea/
 /target/
 *.log
+
+com.vthmgnpipola.sigaad.data/target/
+com.vthmgnpipola.sigaad.libsigaa/target/

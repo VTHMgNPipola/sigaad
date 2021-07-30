@@ -42,6 +42,8 @@ import org.slf4j.LoggerFactory;
 public class ThreadConexaoSocket extends Thread implements Closeable {
     private static final Logger logger = LoggerFactory.getLogger(ThreadConexaoSocket.class);
 
+    public static final String PORTA_PADRAO = "51327";
+
     private ServerSocket serverSocket;
     private Socket socket;
     private OutputStreamWriter outputStreamWriter;
@@ -52,7 +54,7 @@ public class ThreadConexaoSocket extends Thread implements Closeable {
         try {
             serverSocket = new ServerSocket(
                     Integer.parseInt(PropriedadesGlobais.getProperties()
-                            .getProperty("socket.porta", "51327")));
+                            .getProperty("socket.porta", PORTA_PADRAO)));
         } catch (IOException e) {
             logger.error("Erro inicializando o ServerSocket!\n{}", e.getMessage());
             System.exit(-1);

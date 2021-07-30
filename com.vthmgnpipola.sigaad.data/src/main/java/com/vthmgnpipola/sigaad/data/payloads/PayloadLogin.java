@@ -29,6 +29,15 @@ public class PayloadLogin {
 
     private boolean manterLogado;
 
+    public PayloadLogin() {
+    }
+
+    public PayloadLogin(String usuario, String senha, boolean manterLogado) {
+        this.usuario = usuario;
+        this.senha = senha;
+        this.manterLogado = manterLogado;
+    }
+
     public String getUsuario() {
         return usuario;
     }

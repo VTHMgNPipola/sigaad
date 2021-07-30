@@ -89,7 +89,7 @@ public class ComandoListarTurmas extends Comando<Object, RespostaTurmas> {
             turma.setNome(nome);
 
             // Local
-            Elements infos = form.select("td[class=info]");
+            Elements infos = tr.select("td[class=info]");
             Element tdLocal = infos.first();
             String local = tdLocal.text();
             if (!local.isBlank()) {

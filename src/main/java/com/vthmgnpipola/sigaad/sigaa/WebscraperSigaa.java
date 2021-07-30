@@ -42,8 +42,8 @@ import static com.vthmgnpipola.sigaad.PropriedadesGlobais.SENHA_USUARIO;
 import static com.vthmgnpipola.sigaad.PropriedadesGlobais.USER_AGENT;
 
 public final class WebscraperSigaa implements Closeable {
-    private static final WebscraperSigaa INSTANCE = new WebscraperSigaa();
     private static final Logger logger = LoggerFactory.getLogger(WebscraperSigaa.class);
+    private static final WebscraperSigaa INSTANCE = new WebscraperSigaa();
 
     private static final String URL_PAGINA_ERRO = "https://sig.ifsc.edu.br/sigaa/verPortalDiscente.do?";
     private static final String URL_SESSAO_EXPIRADA = "https://sig.ifsc.edu.br/sigaa/expirada.jsp";
@@ -182,6 +182,10 @@ public final class WebscraperSigaa implements Closeable {
     }
 
     public void login(String usuario, String senha) throws IOException {
+        if (sessaoSigaa.isValida()) {
+            return;
+        }
+
         Map<String, String> dados = new HashMap<>();
         // Dados obrigatórios
         dados.put("width", "1920");

@@ -35,6 +35,8 @@ public class ConexaoSigaaD implements Closeable {
     private static final Logger logger = LoggerFactory.getLogger(ConexaoSigaaD.class);
     private static final ConexaoSigaaD instance = new ConexaoSigaaD();
 
+    public static final int PORTA_PADRAO = 51327;
+
     private Socket socket;
     private OutputStreamWriter outputStreamWriter;
     private InputStreamReader inputStreamReader;
