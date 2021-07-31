@@ -183,6 +183,7 @@ public final class WebscraperSigaa implements Closeable {
 
     public void login(String usuario, String senha) throws IOException {
         if (sessaoSigaa.isValida()) {
+            logger.info("Login não iniciado, a sessão ainda é válida.");
             return;
         }
 
@@ -217,6 +218,20 @@ public final class WebscraperSigaa implements Closeable {
         sessaoSigaa.setUsuario(usuario);
         sessaoSigaa.setSessionId(sessionId);
         sessaoSigaa.reiniciarViewState();
+
+        logger.info("Login realizado com sucesso.");
+    }
+
+    public void checarCorrigirSessao() {
+        if (!sessaoSigaa.isValida() && PropriedadesGlobais.getProperties().containsKey(LOGIN_USUARIO)
+                && PropriedadesGlobais.getProperties().containsKey(SENHA_USUARIO)) {
+            try {
+                logger.info("A sessão não é válida mas um usuário e senha foram encontrados. Tentando login...");
+                loginAutomatico();
+            } catch (IOException e) {
+                logger.error("Houve um erro tentando logar automaticamente no SIGAA!\n{}", e.getMessage());
+            }
+        }
     }
 
     public Document paginaInicial() throws IOException {

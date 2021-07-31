@@ -62,6 +62,8 @@ public class SigaaD {
 
         ProcessadorComando.inicializar();
 
+        WebscraperSigaa.getInstance().checarCorrigirSessao();
+
         ThreadConexaoSocket threadConexaoSocket = new ThreadConexaoSocket();
         threadConexaoSocket.start();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

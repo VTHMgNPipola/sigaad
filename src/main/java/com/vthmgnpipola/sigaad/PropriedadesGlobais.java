@@ -22,8 +22,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PropriedadesGlobais {
+    private static final Logger logger = LoggerFactory.getLogger(PropriedadesGlobais.class);
+
     public static final String LOGIN_USUARIO = "usuario";
     public static final String SENHA_USUARIO = "usuario.senha";
     public static final String USER_AGENT = "user-agent";
@@ -31,6 +35,14 @@ public class PropriedadesGlobais {
 
     public static void carregar(Path arquivo) throws IOException {
         PROPERTIES.load(Files.newInputStream(arquivo));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                PROPERTIES.store(Files.newBufferedWriter(arquivo), "Arquivo de propriedades do sigaad. " +
+                        "NÃO COMPARTILHE ESTE ARQUIVO COM NINGUÉM.");
+            } catch (IOException e) {
+                logger.error("Não foi possível salvar o arquivo de propriedades!\n{}", e.getMessage());
+            }
+        }));
     }
 
     public static Properties getProperties() {
