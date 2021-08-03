@@ -29,10 +29,12 @@ public class PayloadLogin {
 
     private boolean manterLogado;
 
+    private boolean aceitaTermos;
+
     public PayloadLogin() {
     }
 
-    public PayloadLogin(String usuario, String senha, boolean manterLogado) {
+    public PayloadLogin(String usuario, String senha, boolean manterLogado, boolean aceitaTermos) {
         this.usuario = usuario;
         this.senha = senha;
         this.manterLogado = manterLogado;
@@ -60,5 +62,13 @@ public class PayloadLogin {
 
     public void setManterLogado(boolean manterLogado) {
         this.manterLogado = manterLogado;
+    }
+
+    public boolean isAceitaTermos() {
+        return aceitaTermos;
+    }
+
+    public void setAceitaTermos(boolean aceitaTermos) {
+        this.aceitaTermos = aceitaTermos;
     }
 }

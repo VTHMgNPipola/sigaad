@@ -35,6 +35,11 @@ public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
 
     @Override
     public RespostaSimples executar() {
+        if (dados.isManterLogado() && !dados.isAceitaTermos()) {
+            logger.info("Usuário tentou logar e salvar seus dados, mas não aceitou os termos de uso.");
+            return new RespostaSimples(EstadoResposta.FALHA);
+        }
+
         EstadoResposta estadoResposta = EstadoResposta.SUCESSO;
         try {
             WebscraperSigaa.getInstance().login(dados.getUsuario(), dados.getSenha());
@@ -43,7 +48,7 @@ public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
             estadoResposta = EstadoResposta.FALHA;
         }
 
-        if (dados.isManterLogado() && estadoResposta == EstadoResposta.SUCESSO) {
+        if (dados.isManterLogado() && dados.isAceitaTermos() && estadoResposta == EstadoResposta.SUCESSO) {
             PropriedadesGlobais.getProperties().setProperty(LOGIN_USUARIO, dados.getUsuario());
             PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, dados.getSenha());
         }
