@@ -48,8 +48,6 @@ public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
             PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, dados.getSenha());
         }
 
-        RespostaSimples resposta = new RespostaSimples();
-        resposta.setEstado(estadoResposta);
-        return resposta;
+        return new RespostaSimples(estadoResposta);
     }
 }

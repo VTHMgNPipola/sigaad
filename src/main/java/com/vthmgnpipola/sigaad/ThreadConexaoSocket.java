@@ -63,38 +63,40 @@ public class ThreadConexaoSocket extends Thread implements Closeable {
 
     @Override
     public void run() {
-        try {
-            logger.info("Aceitando conexões na porta {}...", serverSocket.getLocalPort());
-            socket = serverSocket.accept();
-            outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
-            logger.info("Conexão com {} iniciada com sucesso!", socket.getInetAddress().getHostAddress());
-        } catch (IOException e) {
-            logger.error("Erro aceitando conexão!\n{}", e.getMessage());
-            System.exit(-1);
-        }
-
-        StringBuilder request = new StringBuilder();
-        try (InputStreamReader isr = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8)) {
-            int i;
-            while ((i = isr.read()) != -1) { // Um EOF durante .read() é representado por um -1
-                request.append((char) i);
-
-                // Caso reconheça a terminação da requisição
-                if (request.toString().endsWith("\r\n\r\n")) {
-                    logger.info("Requisição recebida, processando dados...");
-                    List<Comando<?, ?>> comandos = ProcessadorComando.processar(request.toString());
-                    request = new StringBuilder();
-
-                    // Executa os comandos processados
-                    Executor executor = new Executor(comandos, outputStreamWriter);
-                    executor.start();
-                }
+        while (PropriedadesGlobais.aceitandoConexoes) {
+            try {
+                logger.info("Aceitando conexões na porta {}...", serverSocket.getLocalPort());
+                socket = serverSocket.accept();
+                outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
+                logger.info("Conexão com {} iniciada com sucesso!", socket.getInetAddress().getHostAddress());
+            } catch (IOException e) {
+                logger.error("Erro aceitando conexão!\n{}", e.getMessage());
+                System.exit(-1);
             }
 
-            logger.info("Conexão com o cliente finalizada (não há mais nada para ser lido).");
-        } catch (IOException e) {
-            logger.error("Erro lendo dados do cliente!\n{}", e.getMessage());
-            System.exit(-1);
+            StringBuilder request = new StringBuilder();
+            try (InputStreamReader isr = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8)) {
+                int i;
+                while ((i = isr.read()) != -1) { // Um EOF durante .read() é representado por um -1
+                    request.append((char) i);
+
+                    // Caso reconheça a terminação da requisição
+                    if (request.toString().endsWith("\r\n\r\n")) {
+                        logger.info("Requisição recebida, processando dados...");
+                        List<Comando<?, ?>> comandos = ProcessadorComando.processar(request.toString());
+                        request = new StringBuilder();
+
+                        // Executa os comandos processados
+                        Executor executor = new Executor(comandos, outputStreamWriter);
+                        executor.start();
+                    }
+                }
+
+                logger.info("Conexão com o cliente finalizada (não há mais nada para ser lido).");
+            } catch (IOException e) {
+                logger.error("Erro lendo dados do cliente!\n{}", e.getMessage());
+                System.exit(-1);
+            }
         }
     }
 

@@ -31,10 +31,19 @@ public class PropriedadesGlobais {
     public static final String LOGIN_USUARIO = "usuario";
     public static final String SENHA_USUARIO = "usuario.senha";
     public static final String USER_AGENT = "user-agent";
+    public static final String ACEITAR_NOVAS_CONEXOES = "conexoes.aceitar-novas";
+
     private static final Properties PROPERTIES = new Properties();
+
+    public static boolean aceitandoConexoes = true;
 
     public static void carregar(Path arquivo) throws IOException {
         PROPERTIES.load(Files.newInputStream(arquivo));
+
+        if (PROPERTIES.containsKey(ACEITAR_NOVAS_CONEXOES)) {
+            aceitandoConexoes = Boolean.parseBoolean(PROPERTIES.getProperty(ACEITAR_NOVAS_CONEXOES));
+        }
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 PROPERTIES.store(Files.newBufferedWriter(arquivo), "Arquivo de propriedades do sigaad. " +

@@ -18,26 +18,20 @@
 
 package com.vthmgnpipola.sigaad.comandos;
 
+import com.vthmgnpipola.sigaad.PropriedadesGlobais;
 import com.vthmgnpipola.sigaad.data.respostas.EstadoResposta;
 import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
 
 /**
- * Comando simples utilizado para testar a conexão com o sigaad. O comando não faz nada e retorna imediatamente uma
- * resposta de sucesso.
+ * Comando usado para finalizar a execução do sigaad. Este comando não termina a execução do sigaad de fato, mas faz
+ * com que ele não aceite mais conexões depois que a atual for fechada. Dessa forma, o sigaad vai finalizar sua
+ * execução assim que a conexão com o cliente for terminada.
  */
-@ComandoNomeado("ping")
-public class ComandoPing extends Comando<Object, RespostaSimples> {
+@ComandoNomeado("finalizar")
+public class ComandoFinalizar extends Comando<Object, RespostaSimples> {
     @Override
     public RespostaSimples executar() {
+        PropriedadesGlobais.aceitandoConexoes = false;
         return new RespostaSimples(EstadoResposta.SUCESSO);
-    }
-
-    @Override
-    public Object getDados() {
-        return null;
-    }
-
-    @Override
-    public void setDados(Object dados) {
     }
 }

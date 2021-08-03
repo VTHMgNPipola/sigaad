@@ -1,5 +1,5 @@
 /*
- * sigaad
+ * sigaad.libsigaa
  * Copyright (C) 2021  VTHMgNPipola
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,13 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.data.respostas;
+package com.vthmgnpipola.sigaad.libsigaa.comandos;
 
-public class RespostaSimples extends Resposta {
-    public RespostaSimples() {
-    }
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
+import java.util.function.Consumer;
 
-    public RespostaSimples(EstadoResposta estado) {
-        this.estado = estado;
+public class ComandoFinalizar extends Comando<Object, RespostaSimples> {
+    public ComandoFinalizar(String referencia, Consumer<RespostaSimples> callback) {
+        super(referencia, "finalizar", TypeFactory.defaultInstance().constructType(RespostaSimples.class), callback);
     }
 }
