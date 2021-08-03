@@ -22,9 +22,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public abstract class Comando<D, T> {
+    private static final AtomicInteger INDICE_REFERENCIA = new AtomicInteger();
+
     @JsonIgnore
     private JavaType tipoResposta;
 
@@ -40,7 +44,9 @@ public abstract class Comando<D, T> {
     private D dados;
 
     public Comando(String referencia, String tipo, JavaType tipoResposta, Consumer<T> callback) {
-        this.referencia = referencia;
+        this.referencia = Objects.requireNonNullElseGet(referencia,
+                () -> tipo + INDICE_REFERENCIA.getAndIncrement());
+
         this.tipo = tipo;
         this.tipoResposta = tipoResposta;
         this.callback = callback;
