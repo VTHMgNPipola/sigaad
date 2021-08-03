@@ -7,3 +7,14 @@ utilizado por outras aplicações para se comunicar com o SIGAA (atualmente some
 
 As aplicações podem se comunicar com o sigaad diretamente, utilizando sockets, ou através de uma biblioteca auxiliadora,
 como o libsigaa para a linguagem de programação Java.
+
+## Aviso
+
+O sigaad e qualquer aplicação proveniente dele **não** deve ser usado em computadores públicos! O uso é permitido **
+somente** na própria máquina pessoal do usuário, que somente ele pode acessar. O SIGAA implementa funcionalidades para
+garantir a segurança e privacidade do usuário em computadores públicos, mas o sigaad tem mecanismos para tornar a
+experiência melhor que removem essa segurança.
+
+Além disso, *nunca*, em hipótese alguma, compartilhe os arquivos `sessao.obj`, dentro da pasta de dados do sigaad, e
+`sigaad.properties`, dentro da pasta de configurações do sigaad. Estes arquivos podem conter informações válidas de
+login do usuário.
