@@ -30,6 +30,7 @@ public class PayloadAnalisarTurma {
     private boolean analisarTarefas;
     private boolean analisarQuestionarios;
     private boolean analisarForuns;
+    private boolean analisarNoticias;
     private boolean analisarNotas;
 
     public int getId() {
@@ -70,6 +71,14 @@ public class PayloadAnalisarTurma {
 
     public void setAnalisarForuns(boolean analisarForuns) {
         this.analisarForuns = analisarForuns;
+    }
+
+    public boolean isAnalisarNoticias() {
+        return analisarNoticias;
+    }
+
+    public void setAnalisarNoticias(boolean analisarNoticias) {
+        this.analisarNoticias = analisarNoticias;
     }
 
     public boolean isAnalisarNotas() {
