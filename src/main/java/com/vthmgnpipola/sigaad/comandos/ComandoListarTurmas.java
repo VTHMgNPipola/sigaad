@@ -152,13 +152,4 @@ public class ComandoListarTurmas extends Comando<Object, RespostaTurmas> {
 
         return aulas.toArray(new Turma.HorarioAula[0]);
     }
-
-    @Override
-    public Object getDados() {
-        return null;
-    }
-
-    @Override
-    public void setDados(Object dados) {
-    }
 }
