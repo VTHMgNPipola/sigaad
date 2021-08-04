@@ -10,8 +10,8 @@ como o libsigaa para a linguagem de programação Java.
 
 ## Aviso
 
-O sigaad e qualquer aplicação proveniente dele **não** deve ser usado em computadores públicos! O uso é permitido **
-somente** na própria máquina pessoal do usuário, que somente ele pode acessar. O SIGAA implementa funcionalidades para
+O sigaad e qualquer aplicação proveniente dele **não** deve ser usado em computadores públicos! O uso é permitido
+**somente** na própria máquina pessoal do usuário, que somente ele pode acessar. O SIGAA implementa funcionalidades para
 garantir a segurança e privacidade do usuário em computadores públicos, mas o sigaad tem mecanismos para tornar a
 experiência melhor que removem essa segurança.
 
