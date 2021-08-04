@@ -63,7 +63,7 @@ public final class SessaoSigaa implements Serializable {
     }
 
     public int proximoViewState() {
-        return viewState.getAndIncrement();
+        return viewState.getAndAdd(2);
     }
 
     public AtomicInteger getViewState() {
