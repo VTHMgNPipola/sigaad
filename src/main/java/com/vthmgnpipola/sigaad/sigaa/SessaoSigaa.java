@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Essa classe representa uma sessão no SIGAA. As requisições de usuários logados no SIGAA precisam de um session ID
  * (o JSESSIONID da requisição) e um view state.
  * A sessão também armazena quando foi a última vez que houve uma requisição ao SIGAA. Outras classes utilizam essa
- * informação para fazer requisições "keep alive" (voltar para a página inicial), a fim de manter o usuário logado
+ * informação para fazer requisições "keep alive" (voltar para a página inicial), de modo a manter o usuário logado
  * enquanto o sigaad estiver rodando (já que o SIGAA do IFSC invalida a sessão do usuário automaticamente após 1 hora
  * e 30 minutos).
  */
