@@ -51,6 +51,7 @@ public class ComandoLogar extends Comando<PayloadLogin, RespostaSimples> {
         if (dados.isManterLogado() && dados.isAceitaTermos() && estadoResposta == EstadoResposta.SUCESSO) {
             PropriedadesGlobais.getProperties().setProperty(LOGIN_USUARIO, dados.getUsuario());
             PropriedadesGlobais.getProperties().setProperty(SENHA_USUARIO, dados.getSenha());
+            WebscraperSigaa.getInstance().atualizarTimerRelogin();
         }
 
         return new RespostaSimples(estadoResposta);

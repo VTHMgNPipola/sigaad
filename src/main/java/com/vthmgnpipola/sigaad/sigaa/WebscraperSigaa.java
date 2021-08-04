@@ -26,10 +26,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -66,6 +69,9 @@ public final class WebscraperSigaa implements Closeable {
 
     private SessaoSigaa sessaoSigaa;
 
+    private Timer timer;
+    private ReloginTimerTask reloginTimerTask;
+
     private WebscraperSigaa() {
         if (Files.exists(PathHelper.getSessaoFile())) {
             try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(PathHelper.getSessaoFile()))) {
@@ -80,6 +86,9 @@ public final class WebscraperSigaa implements Closeable {
             logger.info("Não existe uma sessão salva previamente, criando uma nova...");
             sessaoSigaa = new SessaoSigaa();
         }
+
+        timer = new Timer(true);
+        reloginTimerTask = new ReloginTimerTask();
     }
 
     public static WebscraperSigaa getInstance() {
@@ -172,6 +181,7 @@ public final class WebscraperSigaa implements Closeable {
         }
 
         sessaoSigaa.setUltimoAcesso(LocalDateTime.now());
+        atualizarTimerRelogin();
 
         return response;
     }
@@ -182,7 +192,11 @@ public final class WebscraperSigaa implements Closeable {
     }
 
     public void login(String usuario, String senha) throws IOException {
-        if (sessaoSigaa.isValida()) {
+        login(usuario, senha, false);
+    }
+
+    public void login(String usuario, String senha, boolean forcarLogin) throws IOException {
+        if (sessaoSigaa.isValida() && !forcarLogin) {
             logger.info("Login não iniciado, a sessão ainda é válida.");
             return;
         }
@@ -218,8 +232,21 @@ public final class WebscraperSigaa implements Closeable {
         sessaoSigaa.setUsuario(usuario);
         sessaoSigaa.setSessionId(sessionId);
         sessaoSigaa.reiniciarViewState();
+        atualizarTimerRelogin();
 
         logger.info("Login realizado com sucesso.");
+    }
+
+    public void atualizarTimerRelogin() {
+        reloginTimerTask.cancel();
+        timer.purge();
+
+        reloginTimerTask = new ReloginTimerTask();
+
+        long delay = Duration.between(LocalDateTime.now(), sessaoSigaa.getUltimoAcesso().plusMinutes(80)).toMillis();
+        delay = Math.max(0, delay);
+        final long period = 4_800_000; // 80 minutos * 60 segundos * 1.000 milisegundos
+        timer.scheduleAtFixedRate(reloginTimerTask, delay, period);
     }
 
     public void checarCorrigirSessao() {
@@ -228,6 +255,7 @@ public final class WebscraperSigaa implements Closeable {
             try {
                 logger.info("A sessão não é válida mas um usuário e senha foram encontrados. Tentando login...");
                 loginAutomatico();
+                atualizarTimerRelogin();
             } catch (IOException e) {
                 logger.error("Houve um erro tentando logar automaticamente no SIGAA!\n{}", e.getMessage());
             }
@@ -252,6 +280,19 @@ public final class WebscraperSigaa implements Closeable {
             }
         } else {
             Files.deleteIfExists(PathHelper.getSessaoFile());
+        }
+    }
+
+    private static class ReloginTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            try {
+                WebscraperSigaa.getInstance().login(PropriedadesGlobais.getProperties().getProperty(LOGIN_USUARIO),
+                        PropriedadesGlobais.getProperties().getProperty(SENHA_USUARIO), true);
+                logger.info("Sessão do SIGAA atualizada com sucesso.");
+            } catch (IOException e) {
+                logger.error("Houve um erro tentando refazer o login no SIGAA!\n{}", e.getMessage());
+            }
         }
     }
 }
