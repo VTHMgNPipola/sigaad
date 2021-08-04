@@ -267,6 +267,23 @@ public final class WebscraperSigaa implements Closeable {
         return executarChamada(connection).parse();
     }
 
+    public Document dashboardTurma(int id, int ordem) throws IOException {
+        Connection connection = buildPostRequest(URL_DISCENTE);
+
+        String ordemStr = ordem != 0 ? "j_id_" + ordem : "";
+        String nomeForm = "form_acessarTurmaVirtual" + ordemStr;
+        connection.data(nomeForm, nomeForm);
+
+        connection.data("idTurma", "" + id);
+
+        String viewStateStr = "j_id" + sessaoSigaa.proximoViewState();
+        connection.data("javax.faces.ViewState", viewStateStr);
+
+        connection.data(nomeForm + ":turmaVirtual", nomeForm + ":turmaVirtual");
+
+        return executarChamada(connection).parse();
+    }
+
     @Override
     public void close() throws IOException {
         if (sessaoSigaa.getSessionId() != null) {

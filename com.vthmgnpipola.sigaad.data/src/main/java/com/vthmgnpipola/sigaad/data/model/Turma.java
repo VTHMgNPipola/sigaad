@@ -28,6 +28,7 @@ public class Turma {
     private String nome;
     private String local;
     private HorarioAula[] aulas;
+    private Material[] materiais;
 
     public int getId() {
         return id;
@@ -75,6 +76,14 @@ public class Turma {
 
     public void setAulas(HorarioAula[] aulas) {
         this.aulas = aulas;
+    }
+
+    public Material[] getMateriais() {
+        return materiais;
+    }
+
+    public void setMateriais(Material[] materiais) {
+        this.materiais = materiais;
     }
 
     public record HorarioAula(Dia dia, int aula) {
