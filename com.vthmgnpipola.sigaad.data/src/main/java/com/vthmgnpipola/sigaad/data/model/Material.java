@@ -25,6 +25,9 @@ public class Material {
     private String chave;
     private String idJsp;
 
+    private String titulo;
+    private String descricao;
+
     public TipoMaterial getTipo() {
         return tipo;
     }
@@ -55,5 +58,21 @@ public class Material {
 
     public void setIdJsp(String idJsp) {
         this.idJsp = idJsp;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

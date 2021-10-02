@@ -19,6 +19,8 @@
 package com.vthmgnpipola.sigaad.data.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.ArrayList;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Turma {
@@ -27,8 +29,13 @@ public class Turma {
     private String codigo;
     private String nome;
     private String local;
-    private HorarioAula[] aulas;
-    private Material[] materiais;
+    private List<HorarioAula> horarioAulas;
+    private List<Aula> aulas;
+
+    public Turma() {
+        horarioAulas = new ArrayList<>();
+        aulas = new ArrayList<>();
+    }
 
     public int getId() {
         return id;
@@ -70,20 +77,20 @@ public class Turma {
         this.local = local;
     }
 
-    public HorarioAula[] getAulas() {
+    public List<HorarioAula> getHorarioAulas() {
+        return horarioAulas;
+    }
+
+    public void setHorarioAulas(List<HorarioAula> horarioAulas) {
+        this.horarioAulas = horarioAulas;
+    }
+
+    public List<Aula> getAulas() {
         return aulas;
     }
 
-    public void setAulas(HorarioAula[] aulas) {
+    public void setAulas(List<Aula> aulas) {
         this.aulas = aulas;
-    }
-
-    public Material[] getMateriais() {
-        return materiais;
-    }
-
-    public void setMateriais(Material[] materiais) {
-        this.materiais = materiais;
     }
 
     public record HorarioAula(Dia dia, int aula) {

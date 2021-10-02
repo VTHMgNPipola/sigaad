@@ -98,10 +98,8 @@ public class ComandoListarTurmas extends Comando<Object, RespostaTurmas> {
 
             // Horários
             Element centerAulas = infos.last().selectFirst("center");
-            Turma.HorarioAula[] aulas = processarAulas(centerAulas.text());
-            if (aulas.length != 0) {
-                turma.setAulas(aulas);
-            }
+            List<Turma.HorarioAula> horarioAulas = processarAulas(centerAulas.text());
+            turma.setHorarioAulas(horarioAulas);
 
             turmas.add(turma);
         }
@@ -109,7 +107,7 @@ public class ComandoListarTurmas extends Comando<Object, RespostaTurmas> {
         return turmas;
     }
 
-    private Turma.HorarioAula[] processarAulas(String str) {
+    private List<Turma.HorarioAula> processarAulas(String str) {
         // Por algum motivo começaram a colocar '*' nos horários do SIGAA, então tenho que filtrá-las aqui.
         List<String> horariosStr = Arrays.stream(str.split("\s+"))
                 .filter(s -> !s.equals("*")).collect(Collectors.toList());
@@ -150,6 +148,6 @@ public class ComandoListarTurmas extends Comando<Object, RespostaTurmas> {
             }
         }
 
-        return aulas.toArray(new Turma.HorarioAula[0]);
+        return aulas;
     }
 }
