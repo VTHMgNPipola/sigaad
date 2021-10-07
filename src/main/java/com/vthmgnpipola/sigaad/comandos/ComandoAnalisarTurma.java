@@ -140,6 +140,7 @@ public class ComandoAnalisarTurma extends Comando<PayloadAnalisarTurma, Resposta
                         case "zip.png" -> tipoMaterial = TipoMaterial.ZIP;
                         case "video.png" -> tipoMaterial = TipoMaterial.VIDEO;
                         case "conteudo.png" -> tipoMaterial = TipoMaterial.CONTEUDO;
+                        case "site_add.png" -> tipoMaterial = TipoMaterial.WEBSITE;
                         case "forumava.png" -> tipoMaterial = TipoMaterial.FORUM;
                         case "tarefa.png" -> tipoMaterial = TipoMaterial.TAREFA;
                         default -> tipoMaterial = TipoMaterial.DESCONHECIDO;

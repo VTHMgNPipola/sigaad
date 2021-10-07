@@ -19,5 +19,5 @@
 package com.vthmgnpipola.sigaad.data.model;
 
 public enum TipoMaterial {
-    PDF, DOC, PPT, ZIP, VIDEO, CONTEUDO, DESCONHECIDO, FORUM, TAREFA
+    PDF, DOC, PPT, ZIP, VIDEO, CONTEUDO, WEBSITE, DESCONHECIDO, FORUM, TAREFA
 }
