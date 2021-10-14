@@ -19,6 +19,7 @@
 package com.vthmgnpipola.sigaad;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vthmgnpipola.sigaad.comandos.Comando;
 import com.vthmgnpipola.sigaad.data.respostas.Resposta;
 import java.io.IOException;
@@ -52,6 +53,7 @@ public class Executor extends Thread {
     @Override
     public void run() {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         for (Comando<?, ?> comando : comandos) {
             logger.info("Executando comando {} (ref. {})...", comando.getClass().getSimpleName(), comando.getReferencia());
             Resposta resposta = comando.executar();

@@ -276,9 +276,6 @@ public final class WebscraperSigaa implements Closeable {
 
         connection.data("idTurma", "" + id);
 
-        String viewStateStr = "j_id" + sessaoSigaa.proximoViewState();
-        connection.data("javax.faces.ViewState", viewStateStr);
-
         connection.data(nomeForm + ":turmaVirtual", nomeForm + ":turmaVirtual");
 
         return executarChamada(connection).parse();

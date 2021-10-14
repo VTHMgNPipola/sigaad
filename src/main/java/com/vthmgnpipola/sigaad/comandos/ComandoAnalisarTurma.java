@@ -117,8 +117,12 @@ public class ComandoAnalisarTurma extends Comando<PayloadAnalisarTurma, Resposta
                 topicoAula.setDataInicial(dataInicial);
 
                 boolean dataFinalMatcherFound = matcherTitulo.find();
-                assert dataFinalMatcherFound;
-                LocalDate dataFinal = LocalDate.parse(matcherTitulo.group(), formatterDatas);
+                LocalDate dataFinal;
+                if (dataFinalMatcherFound) { // Às vezes um tópico não tem uma data final, somente inicial
+                    dataFinal = LocalDate.parse(matcherTitulo.group(), formatterDatas);
+                } else {
+                    dataFinal = LocalDate.MAX;
+                }
                 topicoAula.setDataFinal(dataFinal);
 
                 String titulo = divTituloText.replaceAll(patternDatasStringTotal, "").trim();

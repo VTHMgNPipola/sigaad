@@ -20,6 +20,7 @@ package com.vthmgnpipola.sigaad.libsigaa.conexao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vthmgnpipola.sigaad.libsigaa.comandos.Comando;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,6 +45,7 @@ public class ThreadLeitora extends Thread {
         logger.info("Começando a ler InputStream...");
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         StringBuilder resposta = new StringBuilder();
         try {
             int i;
