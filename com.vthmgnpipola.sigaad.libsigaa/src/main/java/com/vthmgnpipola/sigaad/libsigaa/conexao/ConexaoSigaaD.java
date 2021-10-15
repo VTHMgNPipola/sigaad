@@ -57,16 +57,22 @@ public class ConexaoSigaaD implements Closeable {
         return instance;
     }
 
-    public void conectar(String host, int porta) throws IOException {
-        if (threadLeitora != null && threadLeitora.isAlive()) {
-            threadLeitora.interrupt();
-        }
+    public boolean conectar(String host, int porta) {
+        try {
+            if (threadLeitora != null && threadLeitora.isAlive()) {
+                threadLeitora.interrupt();
+            }
 
-        socket = new Socket(host, porta);
-        outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
-        inputStreamReader = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8);
-        threadLeitora = new ThreadLeitora(inputStreamReader);
-        threadLeitora.start();
+            socket = new Socket(host, porta);
+            outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
+            inputStreamReader = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8);
+            threadLeitora = new ThreadLeitora(inputStreamReader);
+            threadLeitora.start();
+            return true;
+        } catch (Throwable t) {
+            logger.error("Não foi possível conectar ao sigaad!\n" + t.getMessage());
+            return false;
+        }
     }
 
     public OutputStreamWriter getOutputStreamWriter() {
@@ -77,19 +83,25 @@ public class ConexaoSigaaD implements Closeable {
         return inputStreamReader;
     }
 
-    public void criarChamada(Batch batch) throws IOException {
-        // Transforma a batch de comandos em um JSON
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(batch);
+    public boolean criarChamada(Batch batch) {
+        try {
+            // Transforma a batch de comandos em um JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(batch);
 
-        // Faz a requisição
-        outputStreamWriter.write(json);
-        outputStreamWriter.write("\r\n\r\n");
-        outputStreamWriter.flush();
+            // Faz a requisição
+            outputStreamWriter.write(json);
+            outputStreamWriter.write("\r\n\r\n");
+            outputStreamWriter.flush();
 
-        // Se a requisição for bem sucedida, inclui os comandos na lista de comandos que estão aguardando resposta
-        threadLeitora.adicionarComandos(batch.getComandos().parallelStream()
-                .collect(Collectors.toMap(Comando::getReferencia, comando -> comando)));
+            // Se a requisição for bem sucedida, inclui os comandos na lista de comandos que estão aguardando resposta
+            threadLeitora.adicionarComandos(batch.getComandos().parallelStream()
+                    .collect(Collectors.toMap(Comando::getReferencia, comando -> comando)));
+            return true;
+        } catch (Throwable t) {
+            logger.error("Não foi possível criar uma chamada!\n" + t.getMessage());
+            return false;
+        }
     }
 
     @Override
