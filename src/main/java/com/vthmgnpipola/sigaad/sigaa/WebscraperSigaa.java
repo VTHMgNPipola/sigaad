@@ -262,6 +262,10 @@ public final class WebscraperSigaa implements Closeable {
         }
     }
 
+    public boolean isSessaoValida() {
+        return sessaoSigaa.isValida();
+    }
+
     public Document paginaInicial() throws IOException {
         Connection connection = buildGetRequest(URL_DISCENTE);
         return executarChamada(connection).parse();
