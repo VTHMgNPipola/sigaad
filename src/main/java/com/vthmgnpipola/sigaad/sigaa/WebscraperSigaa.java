@@ -249,6 +249,14 @@ public final class WebscraperSigaa implements Closeable {
         timer.scheduleAtFixedRate(reloginTimerTask, delay, period);
     }
 
+    public void fecharSessao() throws IOException {
+        logger.info("Removendo arquivo de sessão e informações de login...");
+        sessaoSigaa = new SessaoSigaa();
+        PropriedadesGlobais.getProperties().remove(SENHA_USUARIO);
+        PropriedadesGlobais.getProperties().remove(LOGIN_USUARIO);
+        Files.deleteIfExists(PathHelper.getSessaoFile());
+    }
+
     public void checarCorrigirSessao() {
         if (!sessaoSigaa.isValida() && PropriedadesGlobais.getProperties().containsKey(LOGIN_USUARIO)
                 && PropriedadesGlobais.getProperties().containsKey(SENHA_USUARIO)) {
@@ -262,8 +270,8 @@ public final class WebscraperSigaa implements Closeable {
         }
     }
 
-    public boolean isSessaoValida() {
-        return sessaoSigaa.isValida();
+    public String getUsuarioLogado() {
+        return sessaoSigaa.getUsuario();
     }
 
     public Document paginaInicial() throws IOException {

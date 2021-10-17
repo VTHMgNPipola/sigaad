@@ -19,18 +19,25 @@
 package com.vthmgnpipola.sigaad.comandos;
 
 import com.vthmgnpipola.sigaad.data.respostas.EstadoResposta;
-import com.vthmgnpipola.sigaad.data.respostas.RespostaEstadoLogin;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaSimples;
 import com.vthmgnpipola.sigaad.sigaa.WebscraperSigaa;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@ComandoNomeado("estadoLogin")
-public class ComandoEstadoLogin extends Comando<Object, RespostaEstadoLogin> {
+@ComandoNomeado("fecharSessao")
+public class ComandoFecharSessao extends Comando<Object, RespostaSimples> {
+    private static final Logger logger = LoggerFactory.getLogger(ComandoFecharSessao.class);
+
     @Override
-    public RespostaEstadoLogin executar() {
-        String usuarioLogado = WebscraperSigaa.getInstance().getUsuarioLogado();
-        RespostaEstadoLogin resposta = new RespostaEstadoLogin();
-        resposta.setEstado(usuarioLogado != null ?
-                EstadoResposta.SUCESSO : EstadoResposta.FALHA);
-        resposta.setUsuario(usuarioLogado);
+    public RespostaSimples executar() {
+        RespostaSimples resposta = new RespostaSimples(EstadoResposta.SUCESSO);
+        try {
+            WebscraperSigaa.getInstance().fecharSessao();
+        } catch (IOException e) {
+            logger.error("Não foi possível fechar a sessão do usuário!\n" + e.getMessage());
+            resposta.setEstado(EstadoResposta.FALHA);
+        }
         return resposta;
     }
 }

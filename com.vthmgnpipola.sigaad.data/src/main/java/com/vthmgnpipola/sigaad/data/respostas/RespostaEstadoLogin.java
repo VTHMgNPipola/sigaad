@@ -1,5 +1,5 @@
 /*
- * sigaad.libsigaa
+ * sigaad.data
  * Copyright (C) 2021  VTHMgNPipola
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.vthmgnpipola.sigaad.libsigaa.comandos;
+package com.vthmgnpipola.sigaad.data.respostas;
 
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.vthmgnpipola.sigaad.data.respostas.RespostaEstadoLogin;
-import java.util.function.Consumer;
+public class RespostaEstadoLogin extends Resposta {
+    private String usuario;
 
-public class ComandoEstadoLogin extends Comando<Object, RespostaEstadoLogin> {
-    public ComandoEstadoLogin(String referencia, Consumer<RespostaEstadoLogin> callback) {
-        super(referencia, "estadoLogin", TypeFactory.defaultInstance().constructType(RespostaEstadoLogin.class),
-                callback);
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }

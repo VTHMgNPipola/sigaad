@@ -38,6 +38,7 @@ public class ThreadLeitora extends Thread {
     public ThreadLeitora(InputStreamReader isr) {
         this.isr = isr;
         comandosAguardando = new ConcurrentHashMap<>();
+        setDaemon(true);
     }
 
     @Override
