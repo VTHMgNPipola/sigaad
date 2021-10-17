@@ -19,12 +19,12 @@
 package com.vthmgnpipola.sigaad.libsigaa.comandos;
 
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.vthmgnpipola.sigaad.data.respostas.RespostaEstadoLogin;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaUsuarioLogado;
 import java.util.function.Consumer;
 
-public class ComandoEstadoLogin extends Comando<Object, RespostaEstadoLogin> {
-    public ComandoEstadoLogin(String referencia, Consumer<RespostaEstadoLogin> callback) {
-        super(referencia, "estadoLogin", TypeFactory.defaultInstance().constructType(RespostaEstadoLogin.class),
+public class ComandoUsuarioLogado extends Comando<Object, RespostaUsuarioLogado> {
+    public ComandoUsuarioLogado(String referencia, Consumer<RespostaUsuarioLogado> callback) {
+        super(referencia, "usuarioLogado", TypeFactory.defaultInstance().constructType(RespostaUsuarioLogado.class),
                 callback);
     }
 }

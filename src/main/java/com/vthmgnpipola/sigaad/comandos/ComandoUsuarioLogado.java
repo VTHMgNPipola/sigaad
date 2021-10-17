@@ -19,15 +19,15 @@
 package com.vthmgnpipola.sigaad.comandos;
 
 import com.vthmgnpipola.sigaad.data.respostas.EstadoResposta;
-import com.vthmgnpipola.sigaad.data.respostas.RespostaEstadoLogin;
+import com.vthmgnpipola.sigaad.data.respostas.RespostaUsuarioLogado;
 import com.vthmgnpipola.sigaad.sigaa.WebscraperSigaa;
 
-@ComandoNomeado("estadoLogin")
-public class ComandoEstadoLogin extends Comando<Object, RespostaEstadoLogin> {
+@ComandoNomeado("usuarioLogado")
+public class ComandoUsuarioLogado extends Comando<Object, RespostaUsuarioLogado> {
     @Override
-    public RespostaEstadoLogin executar() {
+    public RespostaUsuarioLogado executar() {
         String usuarioLogado = WebscraperSigaa.getInstance().getUsuarioLogado();
-        RespostaEstadoLogin resposta = new RespostaEstadoLogin();
+        RespostaUsuarioLogado resposta = new RespostaUsuarioLogado();
         resposta.setEstado(usuarioLogado != null ?
                 EstadoResposta.SUCESSO : EstadoResposta.FALHA);
         resposta.setUsuario(usuarioLogado);

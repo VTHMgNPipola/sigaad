@@ -18,7 +18,7 @@
 
 package com.vthmgnpipola.sigaad.data.respostas;
 
-public class RespostaEstadoLogin extends Resposta {
+public class RespostaUsuarioLogado extends Resposta {
     private String usuario;
 
     public String getUsuario() {
